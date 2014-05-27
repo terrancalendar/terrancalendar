@@ -46,10 +46,10 @@ from array import *
 
 timezone = 'UTC'
 local_timezone = strftime("%Z",time.localtime())
-local_datemod_seconds = -1 * time.timezone
+local_datemod_seconds =  time.timezone
 local_time = time.localtime()
 if local_time.tm_isdst :
-	local_datemod_seconds += 3600
+	local_datemod_seconds -= 3600
 
 local_datemod = ''
 
@@ -76,13 +76,16 @@ class terrandate:
 		
 
 	def secondsToDatemod(self,seconds):
+		sign = ''
+		if seconds >= 0:
+			sign = '+'
 		if seconds == 0:
 			return '';
 		if seconds%3600 == 0:
-			return str(str(seconds/3600)+'H')
+			return str(sign+str(seconds/3600)+'H')
 		if seconds%60 == 0:
-			return str(str(seconds/60)+'M')
-		return seconds
+			return str(sign+str(seconds/60)+'M')
+		return str(sign+str(seconds))
 
 
 	def tick(self):
