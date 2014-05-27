@@ -109,7 +109,7 @@ class terrandate:
 		if timezone != 'UTC':
 			self.datemod_seconds = local_datemod_seconds
 
-		seconds_left += self.datemod_seconds;
+		seconds_left -= self.datemod_seconds;
 
 		self.datemod = self.secondsToDatemod(self.datemod_seconds);
 
