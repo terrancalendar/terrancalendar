@@ -28,7 +28,7 @@ $(function(){
 	$('dropdown').after('<droplabel data-state="up">'+drop_more+'</droplabel>');
 
 	//make invalid links red
-	$('a').not('[href^="#"],[href^="http"],[href^="?"],[href^="mailto"]').css('color', 'red');
+	//$('a').not('[href^="#"],[href^="http"],[href^="?"],[href^="mailto"]').css('color', 'red');
 
 	//allow for a tootip to be used multiple times without rewriting the same tooltip
 	$('a[data-name]').each(function(){
