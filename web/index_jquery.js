@@ -63,7 +63,7 @@ $(function(){
 			if(history.pushState) {
 				history.pushState(null, null, selector);
 			}
-			$('html, body').animate({ scrollTop: parseInt($(selector).offset().top-header_height) }, 750);
+			$('html, body').animate({ scrollTop: parseInt($(selector).offset().top)-header_height }, 750);
 			$(selector).children('droplabel').each(function(){
 				$(this).attr('data-state', 'up').trigger('click');
 			});
@@ -386,9 +386,10 @@ $(function(){
 	$('cdate input').each(resizeInput);
 
 	//scroll to hash
-	var hash = window.location.hash.substring(1).replace(/\./g, '\\.');
-	if (hash != "" && $('#'+hash).length) scrollTo('#'+hash);
-
+	$(window).on('load', function(){
+		var hash = window.location.hash.substring(1).replace(/\./g, '\\.');
+		if (hash != "" && $('#'+hash).length) scrollTo('#'+hash);
+	});
 
 
 
