@@ -163,10 +163,24 @@
 
 		function tcToLocalTime(data_class) {
 			selector = '[data-class="'+data_class+'"][data-designator="TC"]';
-			var timestamp = parseInt($(selector+'[data-tc_timestamp]').data('tc_timestamp'));
+			var tc_timestamp = parseInt($(selector+'[data-tc_timestamp]').data('tc_timestamp'));
 			var date_obj = new TerranDate();
-			var date;
-			var date = date_obj.getTCFromTCTimestamp(timestamp,'', date_obj.offsetToDatemod( -60 * parseInt((new Date()).getTimezoneOffset()) ));
+
+			/* this allows for completely javascript page.  It still works withouth it if you have the php version.  */
+			var d = new Date();
+			var unix_timestamp = d.getTime();
+
+			if (tc_timestamp < unix_timestamp/1000 + (10*86400)) {
+				var offset = ($(this).data('type') == 'local' ? d.getTimezoneOffset() * 60 : 0);
+			   	var d = new Date(unix_timestamp - offset*1000);
+				offset = (offset <= 0 ? "+" : "-") + pad(Math.floor(offset/3600),2)+":"+pad(Math.floor(offset%60),2);
+
+				date_obj.setByUTC({'year':d.getFullYear(),'month':d.getUTCMonth()+1,'day':d.getUTCDate(),'hour':d.getUTCHours(),'minute':d.getUTCMinutes(),'second':d.getUTCSeconds(),'offset':offset, 'timestamp':d.getTime()});
+				tc_timestamp = date_obj.tc.timestamp;
+			}
+			/* end */
+
+			var date = date_obj.getTCFromTCTimestamp(tc_timestamp,'', date_obj.offsetToDatemod( -60 * parseInt((new Date()).getTimezoneOffset()) ));
 			$(selector+'[data-unit="year"]').html(date.year);
 			$(selector+'[data-unit="month"]').html(date.month);
 			$(selector+'[data-unit="day"]').html(date.day);

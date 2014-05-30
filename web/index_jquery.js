@@ -208,7 +208,7 @@ $(function(){
 		$('cdate[data-ctype="TC_timestamp"] span').html('<a class="internal_drop" href="?date=TC'+sign+converted_dates.tc.timestamp+'">TC'+sign+converted_dates.tc.timestamp+'</a>');
 		$('cdate[data-ctype="UNIX_timestamp"] span').html(converted_dates.utc.timestamp);
 
-		$('cdate[data-ctype="TC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span><br /><span class="color_h4">reduced:</span><br /><span class="color_h4">reduced with datemods:</span><br /><span class="color_h4">year base 0:</span></ib> <ib style="text-align: left;"><a class="internal_drop" href="?date='+converted_dates.tc.original.date+'">'+converted_dates.tc.original.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.standard.date+'">'+converted_dates.tc.standard.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.reduced+'" id="reduced">'+converted_dates.tc.reduced+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.with_datemods+'">'+converted_dates.tc.with_datemods+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.year_base_0.date+'">'+converted_dates.tc.year_base_0.date+'</a></ib></ib>');
+		$('cdate[data-ctype="TC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span><br /><span class="color_h4">reduced:</span><br /><span class="color_h4">reduced with datemods:</span><br /><span class="color_h4">year base 0:</span></ib> <ib style="text-align: left;"><a class="internal_drop" href="?date='+converted_dates.tc.original.date.replace('&nbsp;',' ')+'">'+converted_dates.tc.original.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.standard.date.replace('&nbsp;',' ')+'">'+converted_dates.tc.standard.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.reduced.replace('&nbsp;',' ')+'" id="reduced">'+converted_dates.tc.reduced+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.with_datemods.replace('&nbsp;',' ')+'">'+converted_dates.tc.with_datemods+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.year_base_0.date.replace('&nbsp;',' ')+'">'+converted_dates.tc.year_base_0.date+'</a></ib></ib>');
 		$('cdate[data-ctype="UTC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span></ib> <ib style="text-align: left;">'+converted_dates.utc.original.date+'<br />'+converted_dates.utc.standard.date+'</ib></ib>');
 
 		$(".internal_drop").click(function(event) {
@@ -309,7 +309,7 @@ $(function(){
 	//open up the convert date section with the date in the href
 	}).on('click', ".internal_drop", function(){
 		if ($(this).filter('[data-type]').length) {
-			var d = new Date()
+			var d = new Date();
 			var j_timestamp = d.getTime();
 			var offset = ($(this).data('type') == 'local' ? d.getTimezoneOffset() * 60 : 0);
 		   	var d = new Date(j_timestamp - offset*1000);
