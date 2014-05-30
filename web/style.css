@@ -222,8 +222,8 @@ h1 {
 column > section, column > section > section, #Introduction > div{
 	z-index: 1;
 	/*box-shadow: 4px 4px 3px 3px rgba(0,0,0,0.4);*/
-	background: rgb(212,199,172);
-	background: rgba(236,221,191,0.91);
+	background: rgb(215,202,174);
+	background: rgba(236,221,191,0.912);
 	padding: 2%;
 	border-radius: 2% 2% 2% 2% / 100% 100% 100% 100%;
 }
@@ -579,7 +579,7 @@ cdate.half {
 
 
 .drop_container, cdatebutton {
-	background: rgba(236,221,191,0.9);
+	background: rgba(236,221,191,0.912);
 	border-radius: 2% 2% 2% 2% / 100% 100% 100% 100%;
 	padding: 10px 15px;
 	margin: 0 2% 2% 0;
