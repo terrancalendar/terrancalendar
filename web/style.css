@@ -18,7 +18,7 @@ body {
 }
 
 body > div {
-	background: transparent url(http://raw.githubusercontent.com/terrancalendar/terrancalendar/master/web/terran_computational_calendar_background.png) repeat-y center -66px; /*-795px;*/
+	background: transparent url(terran_computational_calendar_background.png) repeat-y center -66px; /*-795px;*/
 }
 
 
