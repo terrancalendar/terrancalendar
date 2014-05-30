@@ -112,7 +112,7 @@ TerranDate.prototype.getCleanTCDate = function(date) {
 	var val;
 	for (var key in date) {
 		if (key == 'datemod') continue;
-		if (key == 'year_base' && (date[key]=='' || date[key]=='[year base]')) {
+		if (key == 'year_base' && (date[key]==='' || date[key]=='[year base]')) {
 			clean_date[key] = '';
 			continue;
 		}
@@ -397,8 +397,9 @@ TerranDate.prototype.isDelimiter = function(char) {
 }
 
 TerranDate.prototype.getUnitFromStrArr = function(str_arr, signed, ret, not_numeric) {
+	console.log(ret);
 	if (! signed || signed == 'undefined') signed = 0;
-	if (! ret || ret == 'undefined') ret = 0;
+	if (ret !== '' && ret == 'undefined') ret = 0;
 	if (! not_numeric || not_numeric == 'undefined') not_numeric = 0;
 	var sign = 1;
 	if(str_arr.length) {
@@ -408,9 +409,9 @@ TerranDate.prototype.getUnitFromStrArr = function(str_arr, signed, ret, not_nume
 			if(str_arr.length) val = str_arr.shift();
 			else return ret;
 		}
-		if (val == '') return ret;
+		if (val === '') return ret;
 		if (! not_numeric) val = sign*parseInt(val);
-		ret = val;	
+		ret = val;
 	}
 	return ret;
 }
@@ -432,8 +433,9 @@ TerranDate.prototype.strToTCDate = function(str) {
 	date.minute = this.getUnitFromStrArr(split_str[0]);
 	date.second = this.getUnitFromStrArr(split_str[0]);
 	date.fraction = this.getUnitFromStrArr(split_str[0]);
-	if (! this.isDelimiter(split_str[1][0])) date.year_base = this.getUnitFromStrArr(split_str[1], 0,'');
+	date.year_base = this.getUnitFromStrArr(split_str[1], 0,'');
 	date.datemod = this.getUnitFromStrArr(split_str[1],1,'',1);
+
 	return this.getCleanTCDate(date);
 }
 

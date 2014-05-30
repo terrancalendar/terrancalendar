@@ -113,7 +113,7 @@ $(function(){
 		if (href == '') href = window.location.href;
 		var date_str = '';
 		var parts = href.split("#")[0].replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-			if (key == 'date') date_str = value;
+			if (key == 'date') date_str = decodeURIComponent(value);
 		});
 
 		if (date_str == '') {
@@ -205,11 +205,15 @@ $(function(){
 		$('cdate input[data-default]').trigger('blur');
 
 		var sign = (converted_dates.tc.timestamp < 0 ? '' : '+');
-		$('cdate[data-ctype="TC_timestamp"] span').html('TC'+sign+converted_dates.tc.timestamp);
+		$('cdate[data-ctype="TC_timestamp"] span').html('<a class="internal_drop" href="?date=TC'+sign+converted_dates.tc.timestamp+'">TC'+sign+converted_dates.tc.timestamp+'</a>');
 		$('cdate[data-ctype="UNIX_timestamp"] span').html(converted_dates.utc.timestamp);
 
-		$('cdate[data-ctype="TC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span><br /><span class="color_h4">reduced:</span><br /><span class="color_h4">reduced with datemods:</span><br /><span class="color_h4">year base 0:</span></ib> <ib style="text-align: left;">'+converted_dates.tc.original.date+'<br />'+converted_dates.tc.standard.date+'<br /><span id="reduced">'+converted_dates.tc.reduced+'</span><br />'+converted_dates.tc.with_datemods+'<br />'+converted_dates.tc.year_base_0.date+'</ib></ib>');
+		$('cdate[data-ctype="TC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span><br /><span class="color_h4">reduced:</span><br /><span class="color_h4">reduced with datemods:</span><br /><span class="color_h4">year base 0:</span></ib> <ib style="text-align: left;"><a class="internal_drop" href="?date='+converted_dates.tc.original.date+'">'+converted_dates.tc.original.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.standard.date+'">'+converted_dates.tc.standard.date+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.reduced+'" id="reduced">'+converted_dates.tc.reduced+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.with_datemods+'">'+converted_dates.tc.with_datemods+'</a><br /><a class="internal_drop" href="?date='+converted_dates.tc.year_base_0.date+'">'+converted_dates.tc.year_base_0.date+'</a></ib></ib>');
 		$('cdate[data-ctype="UTC_dates"] span').html('<ib style="white-space: nowrap;"><ib style="text-align: right;"><span class="color_h4">original:</span><br /><span class="color_h4">standard:</span></ib> <ib style="text-align: left;">'+converted_dates.utc.original.date+'<br />'+converted_dates.utc.standard.date+'</ib></ib>');
+
+		$(".internal_drop").click(function(event) {
+        		event.preventDefault();
+		});	
 
 		$('cdatebutton a').removeClass('selected');
 	});
