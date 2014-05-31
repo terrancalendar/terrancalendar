@@ -15,33 +15,41 @@ var drop_more = " more&nbsp;&rsaquo;&rsaquo; ";
 var drop_less = " &lsaquo;&lsaquo;&nbsp;less ";
 
 $(function(){
-
-	//style different links
-	$('a[href^="http"]').attr('target', 'blank');
-	$('a[href^="http"]').not('a[href^="http://terran"], a[href^="http://www.terran"]').addClass('external').append('<span class="e_arrow">&#10548;</span>');
-	$('a[href^="?date"]').addClass('internal_drop').append('<span class="id_arrow">&#10548;</span>');
-	$('a[href^="#"],a[data-name]').addClass('internal').append('<span class="i_arrow">&#10549;</span>');
-	$('area[href^="#"]').addClass('internal');
+	function applyDefaults() {
+		//style different links
+		$('a[href^="http"]').attr('target', 'blank');
+		$('a[href^="http"]').not('a[href^="http://terran"], a[href^="http://www.terran"]').filter(':not(.external)').addClass('external').append('<span class="e_arrow">&#10548;</span>');
+		$('a[href^="?date"]').filter(':not(.internal_drop)').addClass('internal_drop').append('<span class="id_arrow">&#10548;</span>');
+		$('a[href^="#"],a[data-name]').filter(':not(.internal)').addClass('internal').append('<span class="i_arrow">&#10549;</span>');
+		$('area[href^="#"]').addClass(':not(.internal)');
 	
 
-	//add droplabels for dropdowns
-	$('dropdown').after('<droplabel data-state="up">'+drop_more+'</droplabel>');
+		//add droplabels for dropdowns
+		$('dropdown').each(function () {
+			if ($(this).next('droplabel').prop('tagName') !== 'DROPLABEL')
+				$('<droplabel/>').insertAfter(this).html(drop_more).attr('data-state', 'up');
+		});
 
-	//make invalid links red
-	//$('a').not('[href^="#"],[href^="http"],[href^="?"],[href^="mailto"]').css('color', 'red');
+		//make invalid links red
+		//$('a').not('[href^="#"],[href^="http"],[href^="?"],[href^="mailto"]').css('color', 'red');
 
-	//allow for a tootip to be used multiple times without rewriting the same tooltip
-	$('a[data-name]').each(function(){
-		var original = $('a[data-tip][data-name="'+$(this).data('name')+'"]');
-		$(this).attr('data-tip', original.data('tip')).attr('href', original.attr('href'));
-	});
+		//allow for a tootip to be used multiple times without rewriting the same tooltip
+		$('a[data-name]').each(function(){
+			var original = $('a[data-tip][data-name="'+$(this).data('name')+'"]');
+			$(this).attr('data-tip', original.data('tip')).attr('href', original.attr('href'));
+		});
 
-	//preload hover images
-	$('img[data-alt]').each(function(){
-		(new Image).src = $(this).data('alt');
-	});
+		//preload hover images
+		$('img[data-alt]').each(function(){
+			if ($(this).not('[data-loading="set"]').length) {
+				$('<img/>')[0].src = $(this).data('alt');
+				$(this).attr('data-loading','set');
+			}
+		});
+	}
 
-
+	applyDefaults();
+	applyDefaults();
 
 	//swaps image with alt
 	function imageSwap(elems) {
@@ -146,6 +154,7 @@ $(function(){
 			$('#loading_comments').hide();
 			$('#drop').animate({ scrollTop: 0 }, 750);
 			applyDefaults();
+			
 		});
 	}
 
@@ -273,13 +282,13 @@ $(function(){
 		if ($(this).attr('data-state') == 'up') {
 			$(this).html(drop_less);
 			$(this).attr('data-state', 'down');
-			$(this).prev('dropdown').slideDown(500, function() {
-			});
+			$(this).prev('dropdown').slideDown(500);
 		}
 		else {
 			$(this).html(drop_more);
 			$(this).attr('data-state', 'up');
-			$('html, body').animate({ scrollTop: parseInt($(this).parent("[id]").offset().top)-header_height }, 750);
+			if ($(this).parent("[id]").length)
+				$('html, body').animate({ scrollTop: parseInt($(this).parent("[id]").offset().top)-header_height }, 750);
 			$(this).prev('dropdown').slideUp(500);
 		}
 	//scroll to id
