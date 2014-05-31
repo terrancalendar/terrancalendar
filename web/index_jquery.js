@@ -69,7 +69,6 @@ $(function(){
 			if (dl.length) {
 				if (dl.html().indexOf("more") !== -1) {
 					dl.trigger('click');
-					console.log(dl.html());
 				}
 			}
 			$('html, body').animate({ scrollTop: parseInt($(selector).offset().top)-header_height }, 750);

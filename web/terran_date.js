@@ -397,7 +397,6 @@ TerranDate.prototype.isDelimiter = function(char) {
 }
 
 TerranDate.prototype.getUnitFromStrArr = function(str_arr, signed, ret, not_numeric) {
-	console.log(ret);
 	if (! signed || signed == 'undefined') signed = 0;
 	if (ret !== '' && ret == 'undefined') ret = 0;
 	if (! not_numeric || not_numeric == 'undefined') not_numeric = 0;
@@ -419,12 +418,14 @@ TerranDate.prototype.getUnitFromStrArr = function(str_arr, signed, ret, not_nume
 TerranDate.prototype.strToTCDate = function(str) {
 	var date = {};
 	var sign = 1;
-	str = str.replace(/[^ +,-\.\/:_CDHMNTWY0-9]+/g, "");
+	str = str.replace(/[^ +,-\.\/:_CDHMLQTWY0-9]+/g, "");
 	var split_str = str.split(/TC/);
 
 
 	split_str[0] = split_str[0].split(/([ +,-\.\/:_]+)/g);
 	split_str[1] = split_str[1].split(/([ +,-\.\/:_]+)/g);
+
+	console.log(split_str[1]);
 
 	date.year = this.getUnitFromStrArr(split_str[0], 1);
 	date.month = this.getUnitFromStrArr(split_str[0]);
