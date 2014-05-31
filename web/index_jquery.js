@@ -20,7 +20,7 @@ $(function(){
 	$('a[href^="http"]').attr('target', 'blank');
 	$('a[href^="http"]').not('a[href^="http://terran"], a[href^="http://www.terran"]').addClass('external').append('<span class="e_arrow">&#10548;</span>');
 	$('a[href^="?date"]').addClass('internal_drop').append('<span class="id_arrow">&#10548;</span>');
-	$('a[href^="#"]').addClass('internal').append('<span class="i_arrow">&#10549;</span>');
+	$('a[href^="#"],a[data-name]').addClass('internal').append('<span class="i_arrow">&#10549;</span>');
 	$('area[href^="#"]').addClass('internal');
 	
 
@@ -62,6 +62,15 @@ $(function(){
 		if(! just_highlight || just_highlight == 'undefined') {
 			if(history.pushState) {
 				history.pushState(null, null, selector);
+			}
+
+			
+			var dl = $(selector).parents('dropdown').next('droplabel');
+			if (dl.length) {
+				if (dl.html().indexOf("more") !== -1) {
+					dl.trigger('click');
+					console.log(dl.html());
+				}
 			}
 			$('html, body').animate({ scrollTop: parseInt($(selector).offset().top)-header_height }, 750);
 			$(selector).children('droplabel').each(function(){
@@ -235,7 +244,7 @@ $(function(){
 		var window_height = parseInt($(window).outerHeight(true));
 		$('#Introduction > div').css('width', (window_width-40)+'px');
 		var date_width = parseInt($('date').outerWidth())+40;
-		header_height = parseInt($('header > div').outerHeight())+10;
+		header_height = parseInt($('header > div').outerHeight())+23;
 		var intro_height = parseInt($('#Introduction').outerHeight())+40;
 
 		$('#drop').css('max-height', (window_height-header_height)+'px');
@@ -245,7 +254,7 @@ $(function(){
 		}
 		else $('#Introduction > div').css('width', date_width+'px');
 
-		$('#Introduction').css('margin-top',(header_height)+'px');
+		$('#Introduction').css('margin-top',(header_height-16)+'px');
 		$('#Introduction > a').css('top', parseInt(intro_height/2-72)+'px');
 		$('#small_left').css('left', parseInt((window_width-date_width)/4-92)+'px');	
 		$('#small_right').css('right', parseInt((window_width-date_width)/4-92)+'px');
