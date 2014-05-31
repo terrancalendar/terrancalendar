@@ -312,7 +312,7 @@ TerranDate.prototype.getUTCFromUNIXTimestamp = function(timestamp, is_leap_secon
 	timestamp += offset.seconds-is_leap_second;
    	var d = new Date(timestamp*1000);
 
-	date.year = d.getFullYear();
+	date.year = d.getUTCFullYear();
 	date.month = d.getUTCMonth()+1;
 	date.day = d.getUTCDate();
 	date.hour = d.getUTCHours();
@@ -425,7 +425,6 @@ TerranDate.prototype.strToTCDate = function(str) {
 	split_str[0] = split_str[0].split(/([ +,-\.\/:_]+)/g);
 	split_str[1] = split_str[1].split(/([ +,-\.\/:_]+)/g);
 
-	console.log(split_str[1]);
 
 	date.year = this.getUnitFromStrArr(split_str[0], 1);
 	date.month = this.getUnitFromStrArr(split_str[0]);
